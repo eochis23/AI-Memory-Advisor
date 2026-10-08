@@ -16,19 +16,21 @@ Heuristics decide *whether* to alert and *which* app to suggest. The daemon cont
 ## Install
 
 ```bash
-cd /home/eochis/AIMEMORY
+git clone https://github.com/eochis23/AI-Memory-Advisor.git
+cd AI-Memory-Advisor
 uv sync
 uv tool install -e .
 aimemory init-config
-aimemory set-key       # ~/.config/aimemory/gemini_api_key (mode 600)
+aimemory set-key       # writes ~/.config/aimemory/gemini_api_key (mode 600)
 aimemory doctor
 ```
 
 `GEMINI_API_KEY` in the environment overrides the key file.
 
-After pulling code changes, reinstall and restart so the startup service picks them up:
+After pulling updates, reinstall and restart the user service:
 
 ```bash
+git pull
 uv tool install -e . --force
 systemctl --user restart aimemory.service
 ```
@@ -44,7 +46,7 @@ systemctl --user status aimemory.service
 journalctl --user -u aimemory.service -f
 ```
 
-The unit is wanted by `graphical-session.target`, so it starts with your GNOME session and stops when you log out. It runs `~/.local/bin/aimemory run`.
+The unit is wanted by `graphical-session.target`, so it starts with the GNOME session and stops on logout. It runs `$HOME/.local/bin/aimemory run`.
 
 ## Commands
 
